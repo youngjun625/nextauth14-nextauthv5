@@ -1,9 +1,10 @@
+// src.auth.ts
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { User } from '@/lib/definitions';
 
-export const { signIn, signOut } = NextAuth({
+export const { handlers: { GET, POST }, auth, signIn, signOut, update } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -44,6 +45,13 @@ export const { signIn, signOut } = NextAuth({
       if (user) {
         token.user = user;
       }
+      // ***************************************************************
+      // added code
+      if (trigger === "update" && session) {
+        token = {...token, user : session}
+        return token;
+      };
+       // **************************************************************
       return token;
     },
   },
