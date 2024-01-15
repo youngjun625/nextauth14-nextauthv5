@@ -1,10 +1,11 @@
 "use client"
 
-import { authenticate } from "@/lib/actions"
+import { authenticate, googleAuthenticate } from "@/lib/actions"
 import { useFormState } from "react-dom"
 
 export default function Page() {
     const [errorMsg, dispatch] = useFormState(authenticate, undefined)
+    const [errorMsgGoogle, dispatchGoogle] = useFormState(googleAuthenticate, undefined) //googleAuthenticate 관련 hook 추가
     return (
       <div>
         <h1>Log in Page</h1>
@@ -16,6 +17,15 @@ export default function Page() {
             </button>
             <p>{errorMsg}</p>
         </form>
+        {/* Added google sign in button */}
+        <br />
+        <form className="flex flex-col" action={dispatchGoogle}>
+            <button>
+                Google Sign In
+            </button>
+            <p>{errorMsgGoogle}</p>
+        </form>
+        {/* Added google sign in button */}
       </div>
     )
   }

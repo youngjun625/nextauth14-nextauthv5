@@ -3,10 +3,18 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { User } from '@/lib/definitions';
+import google from 'next-auth/providers/google';
 
 export const { handlers: { GET, POST }, auth, signIn, signOut, update } = NextAuth({
   ...authConfig,
   providers: [
+    // **************************************************************
+    // added provider
+    google({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    }),
+    // **************************************************************
     Credentials({
       async authorize(credentials) {
         if (credentials.id && credentials.password) {
